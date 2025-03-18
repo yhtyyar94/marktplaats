@@ -1,1 +1,1 @@
-print(we are the best team forever)
+print("we are the best team forever")
