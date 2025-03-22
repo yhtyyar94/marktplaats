@@ -37,3 +37,28 @@ def get_one_user(db:Session,id:int):
                             detail=f"User {id} not found")
     return user
 
+#update  user 
+def update_user(db:Session,id:int,request:UserBase):
+    user = db.query(User).filter(User.id == id).first()
+      #handle any exceptions
+    if not user:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail=f"User {id} not found")
+    user.firstname = request.firstname
+    user.lastname = request.lastname
+    user.email = request.email
+    user.hashed_password = Hash.bcrypt(request.hashed_password)
+
+    db.commit()
+    db.refresh(user) 
+    return f"User {user.firstname} {user.lastname} (ID: {user.id}) has been updated."
+
+#  delete user 
+def delete_user(db:Session,id:int):
+    user=db.query(User).filter(User.id==id).first()
+    if not user:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail=f"User {id} not found")
+    db.delete(user)
+    db.commit()
+    return f"User {user.firstname} {user.lastname} (ID: {user.id}) has been deleted."
