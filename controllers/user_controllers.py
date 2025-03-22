@@ -65,27 +65,15 @@ def get_one_user(db:Session,id:int):
     Raises:
         HTTPException: If the user with the specified ID is not found."
         """
-    try:
-
-        user=db.query(User).filter(User.id==id).first()
-        if not user:
+    user=db.query(User).filter(User.id==id).first()
+    if not user:
             # Log the error and raise an HTTPException if the user is not found
             logging.error(f"User with ID {id} not found")
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail=f"User with ID {id} not found"
             )
-    except Exception as e:
-        # Log the error and raise an HTTPException if something goes wrong
-        logging.error(f"Error retrieving user with ID {id}: {e}")
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="An error occurred while retrieving the user"
-        )
-
-    # Log successful retrieval
-    logging.info(f"User with ID {id} retrieved successfully")
-
+    
     return user
 
 #update  user 
