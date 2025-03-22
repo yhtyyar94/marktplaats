@@ -5,7 +5,7 @@ from db.hash import Hash
 from fastapi import HTTPException,status
 
 
-#Create user
+#Create user  db_user file altindakiler controllers user controllers
 def create_user(db:Session,request:UserBase):
     new_user=User(
         firstname=request.firstname,
